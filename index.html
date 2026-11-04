@@ -1,1 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plataforma TeleAsma - Educación y Seguimiento</title>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --border: #e2e8f0;
+    }
 
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .question {
+      margin-bottom: 16px;
+    }
+
+    .question p {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* Ratio 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .completion-message {
+      text-align: center;
+      padding: 20px;
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Plataforma de Educación TeleAsma</h1>
+
+    <!-- 1. Encuesta Inicial -->
+    <div id="pre-quiz" class="step-card">
+      <h2>Cuestionario Pre-Video</h2>
+      <p>Responda estas preguntas antes de iniciar la visualización del módulo:</p>
+
+      <form id="form-pre">
+        <div class="question">
+          <p>1. ¿Conoce cuál es su medicamento de rescate vs. el de control?</p>
+          <label><input type="radio" name="pre_q1" value="Si" required> Sí</label>
+          <label><input type="radio" name="pre_q1" value="No"> No</label>
+        </div>
+
+        <div class="question">
+          <p>2. En la última semana, ¿cuántas veces usó el inhalador de emergencia?</p>
+          <label><input type="radio" name="pre_q2" value="Ninguna" required> Ninguna</label>
+          <label><input type="radio" name="pre_q2" value="1-2 veces"> 1 a 2 veces</label>
+          <label><input type="radio" name="pre_q2" value="3 o más veces"> 3 o más veces</label>
+        </div>
+
+        <button type="submit">Enviar Respuestas y Ver Video</button>
+      </form>
+    </div>
+
+    <!-- 2. Contenedor del Video -->
+    <div id="video-section" class="step-card hidden">
+      <h2>Módulo Informativo: Uso Correcto del Inhalador</h2>
+      <div class="video-container">
+        <div id="player"></div>
+      </div>
+    </div>
+
+    <!-- 3. Encuesta Final -->
+    <div id="post-quiz" class="step-card hidden">
+      <h2>Cuestionario Post-Video</h2>
+      <p>Por favor, complete esta breve evaluación para registrar su progreso:</p>
+
+      <form id="form-post">
+        <div class="question">
+          <p>1. ¿Comprendió la técnica correcta de inhalación explicada en el video?</p>
+          <label><input type="radio" name="post_q1" value="Totalmente" required> Totalmente</label>
+          <label><input type="radio" name="post_q1" value="Parcialmente"> Parcialmente</label>
+          <label><input type="radio" name="post_q1" value="No"> No</label>
+        </div>
+
+        <div class="question">
+          <p>2. ¿Tiene dudas sobre la enjuagada de boca posterior al uso de corticoides inhalados?</p>
+          <label><input type="radio" name="post_q2" value="No, me quedo claro" required> No, me quedó claro</label>
+          <label><input type="radio" name="post_q2" value="Aun tengo dudas"> Aún tengo dudas</label>
+        </div>
+
+        <button type="submit">Finalizar Módulo</button>
+      </form>
+    </div>
+
+    <!-- Mensaje Final -->
+    <div id="final-message" class="completion-message hidden">
+      <h2>¡Módulo Completado!</h2>
+      <p>Sus respuestas han sido registradas. Gracias por participar en el programa TeleAsma.</p>
+    </div>
+  </div>
+
+  <script>
+    // Configuración: Reemplace con el ID del video de YouTube deseado
+    const YOUTUBE_VIDEO_ID = 'dQw4w9WgXcQ'; 
+
+    let player;
+    let preResponses = {};
+    let postResponses = {};
+
+    // Carga asíncrona de la API de YouTube IFrame
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        videoId: YOUTUBE_VIDEO_ID,
+        playerVars: {
+          'controls': 1,
+          'modestbranding': 1,
+          'rel': 0
+        },
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    // Monitoreo del estado del reproductor
+    function onPlayerStateChange(event) {
+      // YT.PlayerState.ENDED equivale a estado 0 (video finalizado)
+      if (event.data === YT.PlayerState.ENDED) {
+        document.getElementById('video-section').classList.add('hidden');
+        document.getElementById('post-quiz').classList.remove('hidden');
+      }
+    }
+
+    // Manejo de la encuesta PRE-video
+    document.getElementById('form-pre').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      preResponses = Object.fromEntries(formData.entries());
+      
+      console.log('Respuestas Pre-Video:', preResponses);
+
+      // Ocultar encuesta pre y mostrar video
+      document.getElementById('pre-quiz').classList.add('hidden');
+      document.getElementById('video-section').classList.remove('hidden');
+      
+      // Iniciar reproducción si el reproductor está listo
+      if (player && player.playVideo) {
+        player.playVideo();
+      }
+    });
+
+    // Manejo de la encuesta POST-video
+    document.getElementById('form-post').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      postResponses = Object.fromEntries(formData.entries());
+
+      console.log('Respuestas Post-Video:', postResponses);
+
+      // Ocultar encuesta post y mostrar mensaje final
+      document.getElementById('post-quiz').classList.add('hidden');
+      document.getElementById('final-message').classList.remove('hidden');
+
+      // Aquí se puede integrar un envío fetch() a un backend o Google Sheets API
+    });
+  </script>
+</body>
+</html>
