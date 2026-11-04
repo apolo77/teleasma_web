@@ -291,16 +291,18 @@
       "https://docs.google.com/forms/d/e/1FAIpQLSdgUEkwiKI_RLzQk8mZ9GWT628EcGeqxfts-tK49Exoemj7Cw/viewform?embedded=true"
     ];
 
-    // Colección de episodios
-    const EPISODES = [
-      { id: 's3QSvfKgKkw', episodeNum: 1, title: '¿Qué es el Asma?', preForm: GOOGLE_FORMS[0], postForm: GOOGLE_FORMS[1] },
-      { id: 's464LEjx5v4', episodeNum: 2, title: 'Detectives de los desencadenantes', preForm: GOOGLE_FORMS[1], postForm: GOOGLE_FORMS[2] },
-      { id: 'VmgU1Tc3KgU', episodeNum: 3, title: 'Escudo Protector Manejo No Farmacológico', preForm: GOOGLE_FORMS[2], postForm: GOOGLE_FORMS[3] },
-      { id: '8GgUsjFioKg', episodeNum: 4, title: 'Entendiendo los Síntomas del Asma', preForm: GOOGLE_FORMS[3], postForm: GOOGLE_FORMS[4] },
-      { id: 'p0YnmVlXYQw', episodeNum: 5, title: 'Desmintiendo Mitos sobre el Asma', preForm: GOOGLE_FORMS[4], postForm: GOOGLE_FORMS[5] },
-      { id: 'Agu8impLeT0', episodeNum: 6, title: 'Mitos sobre los Medicamentos', preForm: GOOGLE_FORMS[5], postForm: GOOGLE_FORMS[6] },
-      { id: 'oXgFt0bdVGo', episodeNum: 7, title: 'Cómo respira Pulmi hoy - Test del Asma', preForm: GOOGLE_FORMS[6], postForm: GOOGLE_FORMS[7] }
-    ];
+   // Colección de los 9 episodios integrados con sus respectivos formularios de Google Forms
+const EPISODES = [
+  { id: 's3QSvfKgKkw', episodeNum: 1, title: '¿Qué es el Asma?', preForm: GOOGLE_FORMS[0], postForm: GOOGLE_FORMS[1] },
+  { id: 's464LEjx5v4', episodeNum: 2, title: 'Detectives de los desencadenantes', preForm: GOOGLE_FORMS[1], postForm: GOOGLE_FORMS[2] },
+  { id: 'VmgU1Tc3KgU', episodeNum: 3, title: 'Escudo Protector Manejo No Farmacológico', preForm: GOOGLE_FORMS[2], postForm: GOOGLE_FORMS[3] },
+  { id: '8GgUsjFioKg', episodeNum: 4, title: 'Entendiendo los Síntomas del Asma', preForm: GOOGLE_FORMS[3], postForm: GOOGLE_FORMS[4] },
+  { id: 'p0YnmVlXYQw', episodeNum: 5, title: 'Desmintiendo Mitos sobre el Asma', preForm: GOOGLE_FORMS[4], postForm: GOOGLE_FORMS[5] },
+  { id: 'Agu8impLeT0', episodeNum: 6, title: 'Mitos sobre los Medicamentos', preForm: GOOGLE_FORMS[5], postForm: GOOGLE_FORMS[6] },
+  { id: 'oXgFt0bdVGo', episodeNum: 7, title: 'Cómo respira Pulmi hoy - Test del Asma', preForm: GOOGLE_FORMS[6], postForm: GOOGLE_FORMS[7] },
+  { id: 'jDG7DwDTtNI', episodeNum: 8, title: 'El equipo de rescate y protección de Pulmi', preForm: GOOGLE_FORMS[7], postForm: GOOGLE_FORMS[8] },
+  { id: 'mkoEunYzNZs', episodeNum: 9, title: 'La técnica perfecta de Pulmi con el inhalador', preForm: GOOGLE_FORMS[8], postForm: GOOGLE_FORMS[0] }
+];
 
     let player;
     let currentEpisode = null;
