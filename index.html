@@ -1,284 +1,284 @@
-<!DOCTYPE html>
-<html lang="es">
+
+<html lang="es" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Plataforma TeleAsma - Galería Educativa</title>
+  <title>TeleAsma - YouTube Education Platform</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            yt: {
+              bg: '#0f0f0f',
+              card: '#181818',
+              hover: '#272727',
+              border: '#3f3f3f',
+              chip: '#272727',
+              chipActive: '#f1f1f1',
+              red: '#ff0000',
+              text: '#f1f1f1',
+              muted: '#aaa'
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      --primary: #0284c7;
-      --primary-hover: #0369a1;
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --text: #1e293b;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-    }
-
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 24px;
-      display: flex;
-      justify-content: center;
+      font-family: 'Roboto', sans-serif;
+      background-color: #0f0f0f;
+      color: #f1f1f1;
+    }
+    
+    /* Scrollbar styling matching YouTube */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f0f0f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #717171;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
     }
 
-    .container {
-      width: 100%;
-      max-width: 1000px;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    header h1 {
-      font-size: 2rem;
-      color: var(--primary);
-      margin: 0 0 8px 0;
-    }
-
-    header p {
-      color: var(--text-muted);
-      margin: 0;
-      font-size: 1.1rem;
-    }
-
-    /* Galería de tarjetas (Grid Home) */
-    .episodes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .episode-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .episode-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-    }
-
-    .thumbnail-wrapper {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%; /* 16:9 Aspect Ratio */
-      background-color: #000;
-    }
-
-    .thumbnail-wrapper img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .play-overlay {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(2, 132, 199, 0.85);
-      color: white;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .episode-card:hover .play-overlay {
-      background: var(--primary-hover);
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-
-    .card-content {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    .card-badge {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 6px;
-    }
-
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin: 0 0 12px 0;
-      line-height: 1.4;
-    }
-
-    .card-btn {
-      margin-top: auto;
-      background-color: #f1f5f9;
-      color: var(--primary);
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-align: center;
-    }
-
-    /* Modal / Sección de Reproducción */
-    .modal-view {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 24px;
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .btn-back {
-      background-color: #e2e8f0;
-      color: var(--text);
-      border: none;
-      padding: 8px 16px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-bottom: 20px;
-      width: auto;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-back:hover {
-      background-color: #cbd5e1;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .iframe-container {
-      width: 100%;
-      height: 650px;
-      border: none;
-      border-radius: 8px;
-    }
-
-    .video-container {
+    .aspect-video-container {
       position: relative;
       padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
-      border-radius: 8px;
     }
 
-    .video-container iframe {
+    .aspect-video-container iframe {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
     }
-
-    .action-btn {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 16px;
-    }
-
-    .action-btn:hover {
-      background-color: var(--primary-hover);
-    }
-
-    .completion-message {
-      text-align: center;
-      padding: 30px;
-      background-color: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      color: #166534;
-      border-radius: 8px;
-    }
   </style>
 </head>
-<body>
+<body class="bg-yt-bg text-yt-text min-h-screen flex flex-col antialiased">
 
-  <div class="container">
-    
-    <!-- HOME INICIAL: Galería de Videos -->
-    <div id="home-view">
-      <header>
-        <h1>Plataforma de Educación TeleAsma</h1>
-        <p>Seleccione un módulo educativo para comenzar la sesión</p>
-      </header>
-      <div class="episodes-grid" id="episodes-grid"></div>
+  <!-- YOUTUBE TOP NAVBAR -->
+  <header class="bg-yt-bg sticky top-0 z-40 h-14 px-4 flex items-center justify-between border-b border-zinc-800">
+    <!-- Left Section: Menu Toggle & Logo -->
+    <div class="flex items-center space-x-4">
+      <button onclick="toggleSidebar()" class="w-10 h-10 hover:bg-yt-hover rounded-full flex items-center justify-center text-xl transition">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div onclick="returnToHome()" class="flex items-center space-x-1 cursor-pointer">
+        <div class="text-yt-red text-2xl flex items-center">
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+        <div class="flex items-center space-x-1">
+          <span class="font-bold text-lg tracking-tighter text-white">TeleAsma</span>
+          <span class="text-[10px] text-yt-muted font-normal uppercase border border-zinc-700 px-1 rounded ml-1">CO</span>
+        </div>
+      </div>
     </div>
 
-    <!-- VISTA MODAL: Cuestionarios y Video -->
-    <div id="player-modal" class="modal-view hidden">
-      <button class="btn-back" onclick="returnToHome()">← Volver al inicio</button>
+    <!-- Center Section: Search Bar & Voice Input -->
+    <div class="hidden md:flex items-center flex-1 max-w-2xl mx-8">
+      <div class="flex w-full">
+        <input type="text" id="yt-search" oninput="filterVideos()" placeholder="Buscar" class="w-full bg-[#121212] border border-zinc-700 focus:border-blue-500 rounded-l-full px-4 py-2 text-sm text-yt-text focus:outline-none">
+        <button onclick="filterVideos()" class="bg-zinc-800 hover:bg-zinc-700 border border-l-0 border-zinc-700 px-6 rounded-r-full text-zinc-300">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+      <button class="ml-3 w-10 h-10 bg-zinc-800 hover:bg-zinc-700 rounded-full flex items-center justify-center text-white text-sm">
+        <i class="fa-solid fa-microphone"></i>
+      </button>
+    </div>
 
-      <!-- Step 1: Formulario Inicial -->
-      <div id="step-pre">
-        <h2 id="modal-pre-title">Encuesta Inicial</h2>
-        <p>Por favor complete este cuestionario previo antes de habilitar el video:</p>
-        <iframe id="iframe-pre" class="iframe-container" src="">Cargando encuesta...</iframe>
-        <button class="action-btn" onclick="goToVideo()">Ya completé la encuesta, ver video ▶</button>
+    <!-- Right Section: Create, Notifications & User Avatar -->
+    <div class="flex items-center space-x-2">
+      <button class="hidden sm:flex items-center space-x-2 bg-zinc-800 hover:bg-zinc-700 px-3 py-1.5 rounded-full text-sm font-medium">
+        <i class="fa-solid fa-plus text-base"></i>
+        <span>Crear</span>
+      </button>
+      <button class="w-10 h-10 hover:bg-yt-hover rounded-full flex items-center justify-center text-xl relative">
+        <i class="fa-regular fa-bell"></i>
+        <span class="absolute top-2 right-2 bg-yt-red text-[10px] font-bold px-1 rounded-full">9+</span>
+      </button>
+      <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-sm cursor-pointer ml-2">
+        P
+      </div>
+    </div>
+  </header>
+
+  <div class="flex flex-1">
+    <!-- YOUTUBE LEFT SIDEBAR -->
+    <aside id="sidebar" class="w-64 bg-yt-bg flex-shrink-0 hidden md:block border-r border-zinc-800 p-3 space-y-4">
+      <div class="space-y-1">
+        <button onclick="returnToHome()" class="w-full flex items-center space-x-6 px-3 py-2.5 rounded-xl bg-yt-hover font-medium text-sm text-white">
+          <i class="fa-solid fa-house text-lg"></i>
+          <span>Inicio</span>
+        </button>
+        <button class="w-full flex items-center space-x-6 px-3 py-2.5 rounded-xl hover:bg-yt-hover font-normal text-sm text-zinc-300">
+          <i class="fa-solid fa-bolt text-lg"></i>
+          <span>Shorts</span>
+        </button>
+        <button class="w-full flex items-center space-x-6 px-3 py-2.5 rounded-xl hover:bg-yt-hover font-normal text-sm text-zinc-300">
+          <i class="fa-solid fa-tv text-lg"></i>
+          <span>Suscripciones</span>
+        </button>
       </div>
 
-      <!-- Step 2: Reproductor de Video -->
-      <div id="step-video" class="hidden">
-        <h2 id="modal-video-title">Módulo Educativo</h2>
-        <div class="video-container">
-          <div id="player"></div>
+      <hr class="border-zinc-800">
+
+      <!-- Progress Section -->
+      <div class="px-3 space-y-2">
+        <div class="flex items-center justify-between text-xs font-semibold text-zinc-400">
+          <span>Mi Avance</span>
+          <span id="progress-percent" class="text-yt-red">0%</span>
+        </div>
+        <div class="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+          <div id="progress-bar-inner" class="bg-yt-red h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
+        </div>
+        <div class="text-[11px] text-zinc-400" id="progress-counter">0 de 9 Módulos vistos</div>
+      </div>
+
+      <hr class="border-zinc-800">
+
+      <!-- Subscriptions List Mock -->
+      <div class="space-y-1">
+        <h3 class="px-3 text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Suscripciones</h3>
+        <div class="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-yt-hover cursor-pointer text-sm">
+          <div class="w-6 h-6 rounded-full bg-teal-500 text-white flex items-center justify-center text-[10px] font-bold">R</div>
+          <span class="truncate text-zinc-300">Respiras Libre | Asma</span>
+          <span class="w-1.5 h-1.5 bg-blue-500 rounded-full ml-auto"></span>
+        </div>
+        <div class="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-yt-hover cursor-pointer text-sm">
+          <div class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">T</div>
+          <span class="truncate text-zinc-300">TeleEducación Salud</span>
+          <span class="w-1.5 h-1.5 bg-blue-500 rounded-full ml-auto"></span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 p-4 md:p-6 overflow-y-auto">
+
+      <!-- HOME VIEW (GRID OF VIDEOS) -->
+      <div id="home-view" class="space-y-6">
+        
+        <!-- CATEGORY CHIPS BAR -->
+        <div class="flex items-center space-x-3 overflow-x-auto pb-2 scrollbar-none" id="chip-bar">
+          <button onclick="setCategory('all')" class="chip-btn px-3 py-1.5 bg-white text-black text-sm font-medium rounded-lg whitespace-nowrap active-chip" data-cat="all">Todos</button>
+          <button onclick="setCategory('recientes')" class="chip-btn px-3 py-1.5 bg-yt-chip hover:bg-zinc-700 text-sm font-medium rounded-lg text-zinc-200 whitespace-nowrap" data-cat="recientes">Más recientes</button>
+          <button onclick="setCategory('populares')" class="chip-btn px-3 py-1.5 bg-yt-chip hover:bg-zinc-700 text-sm font-medium rounded-lg text-zinc-200 whitespace-nowrap" data-cat="populares">Populares</button>
+          <button onclick="setCategory('tecnicas')" class="chip-btn px-3 py-1.5 bg-yt-chip hover:bg-zinc-700 text-sm font-medium rounded-lg text-zinc-200 whitespace-nowrap" data-cat="tecnicas">Técnicas de Inhalador</button>
+          <button onclick="setCategory('mitos')" class="chip-btn px-3 py-1.5 bg-yt-chip hover:bg-zinc-700 text-sm font-medium rounded-lg text-zinc-200 whitespace-nowrap" data-cat="mitos">Mitos</button>
+        </div>
+
+        <!-- VIDEO CARDS GRID (3-4 columns) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-4 gap-y-8" id="video-grid">
+          <!-- Dynamically populated via JS -->
         </div>
       </div>
 
-      <!-- Step 3: Formulario Final -->
-      <div id="step-post" class="hidden">
-        <h2 id="modal-post-title">Encuesta Final de Evaluación</h2>
-        <p>¡Video finalizado! Por favor complete la evaluación para registrar su avance:</p>
-        <iframe id="iframe-post" class="iframe-container" src="">Cargando encuesta final...</iframe>
-        <button class="action-btn" onclick="finishEpisode()">Finalizar Módulo</button>
+      <!-- PLAYER & FORM WORKFLOW VIEW -->
+      <div id="player-view" class="hidden max-w-5xl mx-auto space-y-6">
+        
+        <!-- Back Button & Status Header -->
+        <div class="flex items-center justify-between">
+          <button onclick="returnToHome()" class="flex items-center space-x-2 text-sm font-medium text-zinc-300 hover:text-white bg-zinc-800 px-4 py-2 rounded-full transition">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Volver al inicio</span>
+          </button>
+          <span id="workflow-step-badge" class="px-3 py-1 bg-yt-red/20 text-yt-red border border-yt-red/40 text-xs font-bold rounded-full uppercase tracking-wider">
+            Paso 1: Encuesta Pre-Video
+          </span>
+        </div>
+
+        <!-- Episode Title Header -->
+        <div class="space-y-1">
+          <h1 id="player-title" class="text-xl md:text-2xl font-bold text-white leading-snug">Cargando episodio...</h1>
+          <div class="flex items-center space-x-3 text-xs text-yt-muted">
+            <span>Respiras Libre | TeleAsma</span>
+            <span>•</span>
+            <span id="player-views">1.2K vistas</span>
+          </div>
+        </div>
+
+        <!-- STEP 1: PRE-QUIZ FORM -->
+        <div id="step-pre" class="bg-yt-card border border-zinc-800 rounded-2xl p-4 md:p-6 space-y-4">
+          <div class="flex items-center space-x-3 text-amber-400 bg-amber-500/10 p-3.5 rounded-xl border border-amber-500/20">
+            <i class="fa-solid fa-clipboard-question text-xl"></i>
+            <div class="text-xs md:text-sm">
+              <span class="font-bold block">Encuesta Previa Mandatoria</span>
+              <span class="text-zinc-300">Por favor complete este formulario antes de habilitar la reproducción del video.</span>
+            </div>
+          </div>
+          
+          <iframe id="iframe-pre" class="w-full h-[550px] rounded-xl border border-zinc-800 bg-white" src="">Cargando formulario...</iframe>
+          
+          <button onclick="startVideoStep()" class="w-full py-3.5 bg-yt-red hover:bg-red-700 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+            <span>Completé la encuesta, Iniciar Video</span>
+            <i class="fa-solid fa-play"></i>
+          </button>
+        </div>
+
+        <!-- STEP 2: YOUTUBE PLAYER -->
+        <div id="step-video" class="hidden bg-yt-card border border-zinc-800 rounded-2xl p-4 space-y-4">
+          <div class="aspect-video-container rounded-xl overflow-hidden bg-black">
+            <div id="yt-player"></div>
+          </div>
+          <div class="flex items-center justify-between text-xs text-yt-muted px-2">
+            <span><i class="fa-solid fa-lock mr-1"></i> La encuesta final se activará automáticamente al terminar el video.</span>
+            <button onclick="simulateVideoEnd()" class="hover:text-white underline">Simular final de video (Pruebas)</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: POST-QUIZ FORM -->
+        <div id="step-post" class="hidden bg-yt-card border border-zinc-800 rounded-2xl p-4 md:p-6 space-y-4">
+          <div class="flex items-center space-x-3 text-emerald-400 bg-emerald-500/10 p-3.5 rounded-xl border border-emerald-500/20">
+            <i class="fa-solid fa-circle-check text-xl"></i>
+            <div class="text-xs md:text-sm">
+              <span class="font-bold block">¡Video Finalizado! Encuesta de Evaluación</span>
+              <span class="text-zinc-300">Complete esta breve evaluación para registrar la finalización de este módulo.</span>
+            </div>
+          </div>
+          
+          <iframe id="iframe-post" class="w-full h-[550px] rounded-xl border border-zinc-800 bg-white" src="">Cargando encuesta final...</iframe>
+          
+          <button onclick="completeModule()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-check"></i>
+            <span>Finalizar Módulo y Guardar Progreso</span>
+          </button>
+        </div>
+
+        <!-- STEP 4: COMPLETION CONGRATS -->
+        <div id="step-done" class="hidden bg-yt-card border border-zinc-800 rounded-2xl p-8 text-center space-y-4">
+          <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-3xl">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-white">¡Módulo Registrado Exitosamente!</h2>
+          <p class="text-zinc-400 text-sm max-w-md mx-auto">Tus respuestas han sido enviadas. Este video se marcará como completado en tu feed principal.</p>
+          <button onclick="returnToHome()" class="px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-sm rounded-xl transition">
+            Volver a la Lista de Videos
+          </button>
+        </div>
+
       </div>
 
-      <!-- Step 4: Finalizado -->
-      <div id="step-completion" class="completion-message hidden">
-        <h2>¡Felicitaciones!</h2>
-        <p>Ha completado exitosamente este módulo educativo. Sus respuestas han sido registradas.</p>
-        <button class="btn-back" style="margin-top: 15px;" onclick="returnToHome()">Volver al menú de episodios</button>
-      </div>
-    </div>
-
+    </main>
   </div>
 
   <script>
-    // Enlaces de Google Forms
+    // GOOGLE FORMS BANK
     const GOOGLE_FORMS = [
       "https://docs.google.com/forms/d/e/1FAIpQLSeSXP3uwFtOJxX83-goX0QAAc_Wo4ryrUas5vUC98yhM8P_6w/viewform?embedded=true",
       "https://docs.google.com/forms/d/e/1FAIpQLSe3dGG-ZUvdu4_N3OTYqzs8XfBPKKJOC1g29_PhSp7RsCzCJw/viewform?embedded=true",
@@ -291,28 +291,149 @@
       "https://docs.google.com/forms/d/e/1FAIpQLSdgUEkwiKI_RLzQk8mZ9GWT628EcGeqxfts-tK49Exoemj7Cw/viewform?embedded=true"
     ];
 
-    // Colección de episodios
-    const EPISODES = [
-      { id: 's3QSvfKgKkw', episodeNum: 1, title: '¿Qué es el Asma?', preForm: GOOGLE_FORMS[0], postForm: GOOGLE_FORMS[1] },
-      { id: 's464LEjx5v4', episodeNum: 2, title: 'Detectives de los desencadenantes', preForm: GOOGLE_FORMS[1], postForm: GOOGLE_FORMS[2] },
-      { id: 'VmgU1Tc3KgU', episodeNum: 3, title: 'Escudo Protector Manejo No Farmacológico', preForm: GOOGLE_FORMS[2], postForm: GOOGLE_FORMS[3] },
-      { id: '8GgUsjFioKg', episodeNum: 4, title: 'Entendiendo los Síntomas del Asma', preForm: GOOGLE_FORMS[3], postForm: GOOGLE_FORMS[4] },
-      { id: 'p0YnmVlXYQw', episodeNum: 5, title: 'Desmintiendo Mitos sobre el Asma', preForm: GOOGLE_FORMS[4], postForm: GOOGLE_FORMS[5] },
-      { id: 'Agu8impLeT0', episodeNum: 6, title: 'Mitos sobre los Medicamentos', preForm: GOOGLE_FORMS[5], postForm: GOOGLE_FORMS[6] },
-      { id: 'oXgFt0bdVGo', episodeNum: 7, title: 'Cómo respira Pulmi hoy - Test del Asma', preForm: GOOGLE_FORMS[6], postForm: GOOGLE_FORMS[7] }
+    // EPISODES DATA MATCHING YOUTUBE SCREENSHOT METADATA
+    const VIDEOS = [
+      {
+        id: 's3QSvfKgKkw',
+        num: 1,
+        title: '1 Episodio, Que es el Asma',
+        duration: '4:12',
+        views: '1.4K vistas',
+        date: 'hace 3 sem.',
+        cat: 'conceptos',
+        preForm: GOOGLE_FORMS[0],
+        postForm: GOOGLE_FORMS[1]
+      },
+      {
+        id: 's464LEjx5v4',
+        num: 2,
+        title: '2 Episodio, Detectives de los desencadenantes',
+        duration: '5:01',
+        views: '980 vistas',
+        date: 'hace 3 sem.',
+        cat: 'conceptos',
+        preForm: GOOGLE_FORMS[1],
+        postForm: GOOGLE_FORMS[2]
+      },
+      {
+        id: 'VmgU1Tc3KgU',
+        num: 3,
+        title: '3 Episodio, Escudo Protector Manejo No Farmacológico',
+        duration: '4:45',
+        views: '850 vistas',
+        date: 'hace 3 sem.',
+        cat: 'conceptos',
+        preForm: GOOGLE_FORMS[2],
+        postForm: GOOGLE_FORMS[3]
+      },
+      {
+        id: '8GgUsjFioKg',
+        num: 4,
+        title: '4 Episodio, Entendiendo los Síntomas del Asma',
+        duration: '3:50',
+        views: '1.1K vistas',
+        date: 'hace 2 sem.',
+        cat: 'recientes',
+        preForm: GOOGLE_FORMS[3],
+        postForm: GOOGLE_FORMS[4]
+      },
+      {
+        id: 'p0YnmVlXYQw',
+        num: 5,
+        title: '5 Episodio, Desmintiendo Mitos sobre el Asma con Pulmi',
+        duration: '5:20',
+        views: '2.3K vistas',
+        date: 'hace 2 sem.',
+        cat: 'mitos',
+        preForm: GOOGLE_FORMS[4],
+        postForm: GOOGLE_FORMS[5]
+      },
+      {
+        id: 'Agu8impLeT0',
+        num: 6,
+        title: '6 Episodio, Mitos sobre los medicamentos para el Asma',
+        duration: '4:15',
+        views: '1.8K vistas',
+        date: 'hace 2 sem.',
+        cat: 'mitos',
+        preForm: GOOGLE_FORMS[5],
+        postForm: GOOGLE_FORMS[6]
+      },
+      {
+        id: 'oXgFt0bdVGo',
+        num: 7,
+        title: '7 Episodio, Cómo respira Pulmi hoy Descubre el test del asma',
+        duration: '0:53',
+        views: '7 vistas',
+        date: 'hace 2 sem.',
+        cat: 'populares',
+        preForm: GOOGLE_FORMS[6],
+        postForm: GOOGLE_FORMS[7]
+      },
+      {
+        id: 's464LEjx5v4', // Secondary clip for Episode 8
+        num: 8,
+        title: '8 El equipo de rescate y protección de Pulmi',
+        duration: '1:03',
+        views: '8 vistas',
+        date: 'hace 2 sem.',
+        cat: 'tecnicas',
+        preForm: GOOGLE_FORMS[7],
+        postForm: GOOGLE_FORMS[8]
+      },
+      {
+        id: 's3QSvfKgKkw', // Secondary clip for Episode 9
+        num: 9,
+        title: '9 Episodio, La técnica perfecta de Pulmi con el inhalador',
+        duration: '0:57',
+        views: '5 vistas',
+        date: 'hace 2 sem.',
+        cat: 'tecnicas',
+        preForm: GOOGLE_FORMS[8],
+        postForm: GOOGLE_FORMS[0]
+      }
     ];
 
-    let player;
-    let currentEpisode = null;
+    let activeCat = 'all';
+    let currentVideoIndex = -1;
+    let ytPlayer = null;
+    let completedIds = [];
 
-    // Cargar API de YouTube
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    window.addEventListener('DOMContentLoaded', () => {
+      loadProgress();
+      renderGrid();
+      initYouTubeAPI();
+    });
+
+    function loadProgress() {
+      const saved = localStorage.getItem('teleasma_yt_completed');
+      if (saved) {
+        try { completedIds = JSON.parse(saved); } catch (e) {}
+      }
+      updateProgressUI();
+    }
+
+    function saveProgress() {
+      localStorage.setItem('teleasma_yt_completed', JSON.stringify(completedIds));
+      updateProgressUI();
+    }
+
+    function updateProgressUI() {
+      const pct = Math.round((completedIds.length / VIDEOS.length) * 100);
+      document.getElementById('progress-percent').innerText = `${pct}%`;
+      document.getElementById('progress-bar-inner').style.width = `${pct}%`;
+      document.getElementById('progress-counter').innerText = `${completedIds.length} de ${VIDEOS.length} Módulos vistos`;
+    }
+
+    function initYouTubeAPI() {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
 
     function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
+      ytPlayer = new YT.Player('yt-player', {
         videoId: '',
         playerVars: { 'controls': 1, 'modestbranding': 1, 'rel': 0 },
         events: { 'onStateChange': onPlayerStateChange }
@@ -321,89 +442,180 @@
 
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.ENDED) {
-        document.getElementById('step-video').classList.add('hidden');
-        document.getElementById('step-post').classList.remove('hidden');
+        showPostQuizStep();
       }
     }
 
-    // Renderizar Galería en el Home
-    function renderHomeGrid() {
-      const grid = document.getElementById('episodes-grid');
+    function renderGrid() {
+      const grid = document.getElementById('video-grid');
       grid.innerHTML = '';
 
-      EPISODES.forEach((ep, index) => {
-        const thumbUrl = `https://img.youtube.com/vi/${ep.id}/mqdefault.jpg`;
+      const query = document.getElementById('yt-search').value.toLowerCase();
+
+      const filtered = VIDEOS.filter(v => {
+        const matchesCat = activeCat === 'all' || v.cat === activeCat;
+        const matchesQuery = v.title.toLowerCase().includes(query);
+        return matchesCat && matchesQuery;
+      });
+
+      filtered.forEach((v, index) => {
+        const isDone = completedIds.includes(v.id + '_' + v.num);
+        const thumbUrl = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+
         const card = document.createElement('div');
-        card.className = 'episode-card';
-        card.onclick = () => openEpisode(index);
+        card.className = "flex flex-col space-y-3 cursor-pointer group";
+        card.onclick = () => openVideoWorkflow(VIDEOS.indexOf(v));
 
         card.innerHTML = `
-          <div class="thumbnail-wrapper">
-            <img src="${thumbUrl}" alt="${ep.title}" />
-            <div class="play-overlay">▶</div>
+          <!-- Thumbnail -->
+          <div class="relative aspect-video rounded-xl overflow-hidden bg-zinc-800">
+            <img src="${thumbUrl}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-200">
+            
+            <!-- Duration Badge -->
+            <span class="absolute bottom-1.5 right-1.5 bg-black/80 text-white text-[11px] font-semibold px-1.5 py-0.5 rounded">
+              ${v.duration}
+            </span>
+
+            ${isDone ? `
+              <span class="absolute top-2 right-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center space-x-1 shadow">
+                <i class="fa-solid fa-check"></i>
+                <span>Visto</span>
+              </span>
+            ` : ''}
           </div>
-          <div class="card-content">
-            <span class="card-badge">Episodio ${ep.episodeNum}</span>
-            <h3 class="card-title">${ep.title}</h3>
-            <div class="card-btn">Iniciar Módulo</div>
+
+          <!-- Title & Meta Details -->
+          <div class="flex space-x-3 items-start">
+            <div class="w-9 h-9 rounded-full bg-teal-600 text-white flex-shrink-0 flex items-center justify-center text-xs font-bold mt-0.5">
+              P
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between">
+                <h3 class="text-sm font-semibold text-white leading-snug line-clamp-2 group-hover:text-zinc-300">
+                  ${v.title}
+                </h3>
+                <button class="text-yt-muted hover:text-white ml-1 p-1">
+                  <i class="fa-solid fa-ellipsis-vertical text-xs"></i>
+                </button>
+              </div>
+              <p class="text-xs text-yt-muted mt-1 hover:text-zinc-200">Respiras Libre | TeleAsma</p>
+              <div class="text-xs text-yt-muted flex items-center space-x-1">
+                <span>▷ ${v.views}</span>
+                <span>•</span>
+                <span>${v.date}</span>
+              </div>
+            </div>
           </div>
         `;
+
         grid.appendChild(card);
       });
     }
 
-    // Abrir un episodio
-    function openEpisode(index) {
-      currentEpisode = EPISODES[index];
+    function setCategory(cat) {
+      activeCat = cat;
+      document.querySelectorAll('.chip-btn').forEach(btn => {
+        if (btn.dataset.cat === cat) {
+          btn.className = "chip-btn px-3 py-1.5 bg-white text-black text-sm font-medium rounded-lg whitespace-nowrap";
+        } else {
+          btn.className = "chip-btn px-3 py-1.5 bg-yt-chip hover:bg-zinc-700 text-sm font-medium rounded-lg text-zinc-200 whitespace-nowrap";
+        }
+      });
+      renderGrid();
+    }
 
-      // Configurar vistas
+    function filterVideos() {
+      renderGrid();
+    }
+
+    function openVideoWorkflow(index) {
+      currentVideoIndex = index;
+      const v = VIDEOS[index];
+
       document.getElementById('home-view').classList.add('hidden');
-      document.getElementById('player-modal').classList.remove('hidden');
+      document.getElementById('player-view').classList.remove('hidden');
 
-      document.getElementById('step-pre').classList.remove('hidden');
+      document.getElementById('player-title').innerText = v.title;
+      document.getElementById('player-views').innerText = `${v.views} • ${v.date}`;
+
+      // Show Step 1 (Pre Quiz)
+      showStep(1);
+
+      document.getElementById('iframe-pre').src = v.preForm;
+      document.getElementById('iframe-post').src = v.postForm;
+
+      if (ytPlayer && ytPlayer.loadVideoById) {
+        ytPlayer.loadVideoById(v.id);
+        ytPlayer.stopVideo();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showStep(stepNum) {
+      document.getElementById('step-pre').classList.add('hidden');
       document.getElementById('step-video').classList.add('hidden');
       document.getElementById('step-post').classList.add('hidden');
-      document.getElementById('step-completion').classList.add('hidden');
+      document.getElementById('step-done').classList.add('hidden');
 
-      // Cargar títulos e iframes de formularios
-      document.getElementById('modal-pre-title').innerText = `Episodio ${currentEpisode.episodeNum}: Encuesta Inicial`;
-      document.getElementById('modal-video-title').innerText = `Episodio ${currentEpisode.episodeNum}: ${currentEpisode.title}`;
-      document.getElementById('modal-post-title').innerText = `Episodio ${currentEpisode.episodeNum}: Encuesta Final`;
+      const badge = document.getElementById('workflow-step-badge');
 
-      document.getElementById('iframe-pre').src = currentEpisode.preForm;
-      document.getElementById('iframe-post').src = currentEpisode.postForm;
-
-      if (player && player.loadVideoById) {
-        player.loadVideoById(currentEpisode.id);
-        player.stopVideo();
+      if (stepNum === 1) {
+        badge.innerText = "Paso 1: Encuesta Pre-Video";
+        document.getElementById('step-pre').classList.remove('hidden');
+      } else if (stepNum === 2) {
+        badge.innerText = "Paso 2: Reproduciendo Video";
+        document.getElementById('step-video').classList.remove('hidden');
+      } else if (stepNum === 3) {
+        badge.innerText = "Paso 3: Encuesta Post-Video";
+        document.getElementById('step-post').classList.remove('hidden');
+      } else if (stepNum === 4) {
+        badge.innerText = "Módulo Completado";
+        document.getElementById('step-done').classList.remove('hidden');
       }
     }
 
-    function goToVideo() {
-      document.getElementById('step-pre').classList.add('hidden');
-      document.getElementById('step-video').classList.remove('hidden');
-      if (player && player.playVideo) {
-        player.playVideo();
+    function startVideoStep() {
+      showStep(2);
+      if (ytPlayer && ytPlayer.playVideo) {
+        ytPlayer.playVideo();
       }
     }
 
-    function finishEpisode() {
-      document.getElementById('step-post').classList.add('hidden');
-      document.getElementById('step-completion').classList.remove('hidden');
+    function showPostQuizStep() {
+      showStep(3);
+    }
+
+    function simulateVideoEnd() {
+      if (ytPlayer && ytPlayer.stopVideo) {
+        ytPlayer.stopVideo();
+      }
+      showPostQuizStep();
+    }
+
+    function completeModule() {
+      const v = VIDEOS[currentVideoIndex];
+      const key = v.id + '_' + v.num;
+      if (!completedIds.includes(key)) {
+        completedIds.push(key);
+        saveProgress();
+      }
+      showStep(4);
+      renderGrid();
     }
 
     function returnToHome() {
-      if (player && player.stopVideo) {
-        player.stopVideo();
+      if (ytPlayer && ytPlayer.stopVideo) {
+        ytPlayer.stopVideo();
       }
-      document.getElementById('player-modal').classList.add('hidden');
+      document.getElementById('player-view').classList.add('hidden');
       document.getElementById('home-view').classList.remove('hidden');
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      renderHomeGrid();
-    });
+    function toggleSidebar() {
+      const sb = document.getElementById('sidebar');
+      sb.classList.toggle('hidden');
+    }
   </script>
 </body>
 </html>
- 
