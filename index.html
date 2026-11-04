@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TeleAsma - Módulo 1: ¿Qué es el Asma?</title>
+  <title>Plataforma TeleAsma - Serie Educativa con Google Forms</title>
   <style>
     :root {
       --primary: #0284c7;
@@ -26,7 +26,7 @@
 
     .container {
       width: 100%;
-      max-width: 800px;
+      max-width: 850px;
       background: var(--card-bg);
       padding: 24px;
       border-radius: 12px;
@@ -38,6 +38,25 @@
       color: var(--primary);
       margin-top: 0;
       text-align: center;
+    }
+
+    .module-selector {
+      margin-bottom: 20px;
+    }
+
+    .module-selector label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      background-color: #fff;
     }
 
     .step-card {
@@ -52,40 +71,34 @@
       display: none !important;
     }
 
-    .question {
-      margin-bottom: 16px;
-    }
-
-    .question p {
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      cursor: pointer;
-    }
-
     button {
       background-color: var(--primary);
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 12px 20px;
       font-size: 1rem;
+      font-weight: 600;
       border-radius: 6px;
       cursor: pointer;
       transition: background-color 0.2s;
       width: 100%;
+      margin-top: 15px;
     }
 
     button:hover {
       background-color: var(--primary-hover);
     }
 
+    .iframe-container {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 8px;
+    }
+
     .video-container {
       position: relative;
-      padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+      padding-bottom: 56.25%; /* 16:9 */
       height: 0;
       overflow: hidden;
       border-radius: 8px;
@@ -107,103 +120,122 @@
       color: #166534;
       border-radius: 8px;
     }
+
+    .btn-link {
+      display: inline-block;
+      text-align: center;
+      background-color: #16a34a;
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-top: 15px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .btn-link:hover {
+      background-color: #15803d;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>Programa TeleAsma: Módulo 1</h1>
+    <h1>Plataforma TeleAsma</h1>
 
-    <!-- 1. Encuesta Pre-Video -->
+    <!-- Selector de Módulo -->
+    <div class="module-selector">
+      <label for="episode-select">Seleccione el Módulo Educativo:</label>
+      <select id="episode-select" onchange="loadSelectedEpisode()">
+        <option value="0">Episodio 1: ¿Qué es el Asma?</option>
+        <option value="1">Episodio 2: Detectives de los desencadenantes</option>
+        <option value="2">Episodio 3: Escudo Protector Manejo No Farmacológico</option>
+        <option value="3">Episodio 4: Entendiendo los Síntomas del Asma</option>
+        <option value="4">Episodio 5: Desmintiendo Mitos sobre el Asma</option>
+        <option value="5">Episodio 6: Mitos sobre los Medicamentos</option>
+        <option value="6">Episodio 7: Cómo respira Pulmi hoy - Test del Asma</option>
+      </select>
+    </div>
+
+    <!-- 1. Encuesta Inicial (Google Form Embedded) -->
     <div id="pre-quiz" class="step-card">
-      <h2>Encuesta Inicial: Conocimientos Previos</h2>
-      <p>Por favor responda las siguientes preguntas antes de visualizar el video:</p>
-
-      <form id="form-pre">
-        <div class="question">
-          <p>1. ¿Sabe qué ocurre en los bronquios (túneles de aire) cuando se presenta una crisis de asma?</p>
-          <label><input type="radio" name="pre_q1" value="Si" required> Sí, conozco el mecanismo</label>
-          <label><input type="radio" name="pre_q1" value="No"> No lo tengo claro</label>
-        </div>
-
-        <div class="question">
-          <p>2. ¿Ha escuchado silbidos en el pecho (sibilancias) al realizar actividad física o correr?</p>
-          <label><input type="radio" name="pre_q2" value="Frecuentemente" required> Frecuentemente</label>
-          <label><input type="radio" name="pre_q2" value="Ocasionalmente"> Ocasionalmente</label>
-          <label><input type="radio" name="pre_q2" value="Nunca"> Nunca</label>
-        </div>
-
-        <button type="submit">Iniciar Video educativo</button>
-      </form>
+      <h2 id="pre-title">Encuesta Inicial</h2>
+      <p>Por favor complete el siguiente formulario antes de continuar:</p>
+      <iframe id="google-form-iframe" class="iframe-container" src="">Cargando formulario...</iframe>
+      <button onclick="confirmPreQuizDone()">Ya completé la encuesta, ir al video</button>
     </div>
 
     <!-- 2. Contenedor del Video -->
     <div id="video-section" class="step-card hidden">
-      <h2>Episodio 1: ¿Qué es el Asma?</h2>
+      <h2 id="video-title">Módulo Educativo</h2>
       <div class="video-container">
         <div id="player"></div>
       </div>
     </div>
 
-    <!-- 3. Encuesta Post-Video -->
+    <!-- 3. Encuesta Post-Video (Google Form / Evaluación Final) -->
     <div id="post-quiz" class="step-card hidden">
-      <h2>Encuesta de Evaluación Post-Video</h2>
-      <p>Responda para validar lo aprendido en este módulo:</p>
-
-      <form id="form-post">
-        <div class="question">
-          <p>1. Según el video, ¿qué le ocurre al bronquio cuando el asma ataca?</p>
-          <label><input type="radio" name="post_q1" value="Se estrecha y produce moco" required> Se aprietan los músculos, se estrecha el túnel y se produce moco</label>
-          <label><input type="radio" name="post_q1" value="Se dilata completamente"> El túnel se expande y se seca</label>
-          <label><input type="radio" name="post_q1" value="No cambia"> No sufre ningún cambio visible</label>
-        </div>
-
-        <div class="question">
-          <p>2. ¿Cuál es la función principal del inhalador mostrada en el episodio?</p>
-          <label><input type="radio" name="post_q2" value="Relajar los musculos" required> Ayudar a relajar los músculos para abrir el túnel de aire</label>
-          <label><input type="radio" name="post_q2" value="Bloquear el aire"> Bloquear el flujo de aire en el tórax</label>
-        </div>
-
-        <button type="submit">Guardar y Finalizar Módulo</button>
-      </form>
+      <h2 id="post-title">Evaluación Post-Video</h2>
+      <p>¡Video finalizado! Complete la siguiente encuesta/evaluación para cerrar el módulo:</p>
+      <iframe id="google-form-post-iframe" class="iframe-container" src="">Cargando formulario final...</iframe>
+      <button onclick="finishModule()">Finalizar Módulo</button>
     </div>
 
     <!-- Mensaje Final -->
     <div id="final-message" class="completion-message hidden">
-      <h2>¡Módulo 1 Completado con Éxito!</h2>
-      <p>Sus respuestas se han registrado correctamente. Recuerde seguir siempre las recomendaciones del equipo médico.</p>
+      <h2>¡Módulo Completado con Éxito!</h2>
+      <p>Sus respuestas han sido enviadas a través de Google Forms. Puede seleccionar el siguiente episodio en el menú superior.</p>
     </div>
   </div>
 
   <script>
-    // Configuración del video 1 (URL: https://youtu.be/s3QSvfKgKkw)
-    const YOUTUBE_VIDEO_ID = 's3QSvfKgKkw'; 
+    // Enlaces de Google Forms proporcionados
+    const GOOGLE_FORMS = [
+      "https://docs.google.com/forms/d/e/1FAIpQLSeSXP3uwFtOJxX83-goX0QAAc_Wo4ryrUas5vUC98yhM8P_6w/viewform?embedded=true",
+      "https://docs.google.com/forms/d/e/1FAIpQLSe3dGG-ZUvdu4_N3OTYqzs8XfBPKKJOC1g29_PhSp7RsCzCJw/viewform?embedded=true",
+      "https://docs.google.com/forms/d/e/1FAIpQLSeRH6KBaQ7BxHVuTmeeJSSZ8dFpvkCPhHLk9Rkix5siNPxktw/viewform?embedded=true",
+      "https://docs.google.com/forms/d/e/1FAIpQLSceG0mzfinnNVDW_276BlpTTiWLnN1S2HhT5OJ5UEA2hlMG9A/viewform?embedded=true",
+      "https://docs.google.com/forms/d/e/1FAIpQLSfmovevJsJu80PuzNbjb_r188lKw3SHHXZDFNAuSSDhtSqctA/viewform?embedded=true",
+      "https://docs.google.com/forms/d/e/1FAIpQLSdqFjum-hntbdybUwuH2_qiyysAVwMtohm4LUEGvk0cEdSghQ/viewform?embedded=true",
+      "https://docs.google.com/forms/d/e/1FAIpQLScjYkK_osPu7YG7eQdGPsctcYwUNEYIaTIvW6bhUsSReKrnHg/viewform?embedded=true",
+      "https://docs.google.com/forms/d/e/1FAIpQLSfAh_yoh-AiLpUNizU04_TcaKCXutm07WNTZCmwRuMF1TIoVQ/viewform?embedded=true",
+      "https://docs.google.com/forms/d/e/1FAIpQLSdgUEkwiKI_RLzQk8mZ9GWT628EcGeqxfts-tK49Exoemj7Cw/viewform?embedded=true"
+    ];
 
+    // Episodios de la serie "Respiras Libre | todo sobre el Asma"
+    const EPISODES = [
+      { id: 's3QSvfKgKkw', title: 'Episodio 1: ¿Qué es el Asma?', preForm: GOOGLE_FORMS[0], postForm: GOOGLE_FORMS[1] },
+      { id: 's464LEjx5v4', title: 'Episodio 2: Detectives de los desencadenantes', preForm: GOOGLE_FORMS[1], postForm: GOOGLE_FORMS[2] },
+      { id: 'VmgU1Tc3KgU', title: 'Episodio 3: Escudo Protector Manejo No Farmacológico', preForm: GOOGLE_FORMS[2], postForm: GOOGLE_FORMS[3] },
+      { id: '8GgUsjFioKg', title: 'Episodio 4: Entendiendo los Síntomas del Asma', preForm: GOOGLE_FORMS[3], postForm: GOOGLE_FORMS[4] },
+      { id: 'p0YnmVlXYQw', title: 'Episodio 5: Desmintiendo Mitos sobre el Asma', preForm: GOOGLE_FORMS[4], postForm: GOOGLE_FORMS[5] },
+      { id: 'Agu8impLeT0', title: 'Episodio 6: Mitos sobre los Medicamentos', preForm: GOOGLE_FORMS[5], postForm: GOOGLE_FORMS[6] },
+      { id: 'oXgFt0bdVGo', title: 'Episodio 7: Cómo respira Pulmi hoy - Test del Asma', preForm: GOOGLE_FORMS[6], postForm: GOOGLE_FORMS[7] }
+    ];
+
+    let currentEpisodeIndex = 0;
     let player;
-    let preResponses = {};
-    let postResponses = {};
 
-    // Carga asíncrona de la API de YouTube IFrame
+    // Cargar API de YouTube
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     const firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     function onYouTubeIframeAPIReady() {
+      initPlayer(EPISODES[0].id);
+    }
+
+    function initPlayer(videoId) {
       player = new YT.Player('player', {
-        videoId: YOUTUBE_VIDEO_ID,
-        playerVars: {
-          'controls': 1,
-          'modestbranding': 1,
-          'rel': 0
-        },
-        events: {
-          'onStateChange': onPlayerStateChange
-        }
+        videoId: videoId,
+        playerVars: { 'controls': 1, 'modestbranding': 1, 'rel': 0 },
+        events: { 'onStateChange': onPlayerStateChange }
       });
     }
 
-    // Detectar fin del video (YT.PlayerState.ENDED = 0)
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.ENDED) {
         document.getElementById('video-section').classList.add('hidden');
@@ -211,32 +243,45 @@
       }
     }
 
-    // Formulario Pre-Video
-    document.getElementById('form-pre').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      preResponses = Object.fromEntries(formData.entries());
-      
-      console.log('Respuestas Pre-Video:', preResponses);
+    function loadSelectedEpisode() {
+      currentEpisodeIndex = parseInt(document.getElementById('episode-select').value);
+      const ep = EPISODES[currentEpisodeIndex];
 
+      // Resetear visibilidad de las secciones
+      document.getElementById('final-message').classList.add('hidden');
+      document.getElementById('video-section').classList.add('hidden');
+      document.getElementById('post-quiz').classList.add('hidden');
+      document.getElementById('pre-quiz').classList.remove('hidden');
+
+      // Actualizar Títulos e IFrames
+      document.getElementById('pre-title').innerText = `Encuesta Inicial - ${ep.title}`;
+      document.getElementById('video-title').innerText = ep.title;
+      document.getElementById('post-title').innerText = `Encuesta Final - ${ep.title}`;
+
+      document.getElementById('google-form-iframe').src = ep.preForm;
+      document.getElementById('google-form-post-iframe').src = ep.postForm;
+
+      if (player && player.loadVideoById) {
+        player.loadVideoById(ep.id);
+        player.stopVideo();
+      }
+    }
+
+    function confirmPreQuizDone() {
       document.getElementById('pre-quiz').classList.add('hidden');
       document.getElementById('video-section').classList.remove('hidden');
-      
       if (player && player.playVideo) {
         player.playVideo();
       }
-    });
+    }
 
-    // Formulario Post-Video
-    document.getElementById('form-post').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      postResponses = Object.fromEntries(formData.entries());
-
-      console.log('Respuestas Post-Video:', postResponses);
-
+    function finishModule() {
       document.getElementById('post-quiz').classList.add('hidden');
       document.getElementById('final-message').classList.remove('hidden');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSelectedEpisode();
     });
   </script>
 </body>
