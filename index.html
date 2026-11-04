@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Plataforma TeleAsma - Educación y Seguimiento</title>
+  <title>TeleAsma - Módulo 1: ¿Qué es el Asma?</title>
   <style>
     :root {
       --primary: #0284c7;
@@ -85,7 +85,7 @@
 
     .video-container {
       position: relative;
-      padding-bottom: 56.25%; /* Ratio 16:9 */
+      padding-bottom: 56.25%; /* Aspect ratio 16:9 */
       height: 0;
       overflow: hidden;
       border-radius: 8px;
@@ -112,72 +112,72 @@
 <body>
 
   <div class="container">
-    <h1>Plataforma de Educación TeleAsma</h1>
+    <h1>Programa TeleAsma: Módulo 1</h1>
 
-    <!-- 1. Encuesta Inicial -->
+    <!-- 1. Encuesta Pre-Video -->
     <div id="pre-quiz" class="step-card">
-      <h2>Cuestionario Pre-Video</h2>
-      <p>Responda estas preguntas antes de iniciar la visualización del módulo:</p>
+      <h2>Encuesta Inicial: Conocimientos Previos</h2>
+      <p>Por favor responda las siguientes preguntas antes de visualizar el video:</p>
 
       <form id="form-pre">
         <div class="question">
-          <p>1. ¿Conoce cuál es su medicamento de rescate vs. el de control?</p>
-          <label><input type="radio" name="pre_q1" value="Si" required> Sí</label>
-          <label><input type="radio" name="pre_q1" value="No"> No</label>
+          <p>1. ¿Sabe qué ocurre en los bronquios (túneles de aire) cuando se presenta una crisis de asma?</p>
+          <label><input type="radio" name="pre_q1" value="Si" required> Sí, conozco el mecanismo</label>
+          <label><input type="radio" name="pre_q1" value="No"> No lo tengo claro</label>
         </div>
 
         <div class="question">
-          <p>2. En la última semana, ¿cuántas veces usó el inhalador de emergencia?</p>
-          <label><input type="radio" name="pre_q2" value="Ninguna" required> Ninguna</label>
-          <label><input type="radio" name="pre_q2" value="1-2 veces"> 1 a 2 veces</label>
-          <label><input type="radio" name="pre_q2" value="3 o más veces"> 3 o más veces</label>
+          <p>2. ¿Ha escuchado silbidos en el pecho (sibilancias) al realizar actividad física o correr?</p>
+          <label><input type="radio" name="pre_q2" value="Frecuentemente" required> Frecuentemente</label>
+          <label><input type="radio" name="pre_q2" value="Ocasionalmente"> Ocasionalmente</label>
+          <label><input type="radio" name="pre_q2" value="Nunca"> Nunca</label>
         </div>
 
-        <button type="submit">Enviar Respuestas y Ver Video</button>
+        <button type="submit">Iniciar Video educativo</button>
       </form>
     </div>
 
     <!-- 2. Contenedor del Video -->
     <div id="video-section" class="step-card hidden">
-      <h2>Módulo Informativo: Uso Correcto del Inhalador</h2>
+      <h2>Episodio 1: ¿Qué es el Asma?</h2>
       <div class="video-container">
         <div id="player"></div>
       </div>
     </div>
 
-    <!-- 3. Encuesta Final -->
+    <!-- 3. Encuesta Post-Video -->
     <div id="post-quiz" class="step-card hidden">
-      <h2>Cuestionario Post-Video</h2>
-      <p>Por favor, complete esta breve evaluación para registrar su progreso:</p>
+      <h2>Encuesta de Evaluación Post-Video</h2>
+      <p>Responda para validar lo aprendido en este módulo:</p>
 
       <form id="form-post">
         <div class="question">
-          <p>1. ¿Comprendió la técnica correcta de inhalación explicada en el video?</p>
-          <label><input type="radio" name="post_q1" value="Totalmente" required> Totalmente</label>
-          <label><input type="radio" name="post_q1" value="Parcialmente"> Parcialmente</label>
-          <label><input type="radio" name="post_q1" value="No"> No</label>
+          <p>1. Según el video, ¿qué le ocurre al bronquio cuando el asma ataca?</p>
+          <label><input type="radio" name="post_q1" value="Se estrecha y produce moco" required> Se aprietan los músculos, se estrecha el túnel y se produce moco</label>
+          <label><input type="radio" name="post_q1" value="Se dilata completamente"> El túnel se expande y se seca</label>
+          <label><input type="radio" name="post_q1" value="No cambia"> No sufre ningún cambio visible</label>
         </div>
 
         <div class="question">
-          <p>2. ¿Tiene dudas sobre la enjuagada de boca posterior al uso de corticoides inhalados?</p>
-          <label><input type="radio" name="post_q2" value="No, me quedo claro" required> No, me quedó claro</label>
-          <label><input type="radio" name="post_q2" value="Aun tengo dudas"> Aún tengo dudas</label>
+          <p>2. ¿Cuál es la función principal del inhalador mostrada en el episodio?</p>
+          <label><input type="radio" name="post_q2" value="Relajar los musculos" required> Ayudar a relajar los músculos para abrir el túnel de aire</label>
+          <label><input type="radio" name="post_q2" value="Bloquear el aire"> Bloquear el flujo de aire en el tórax</label>
         </div>
 
-        <button type="submit">Finalizar Módulo</button>
+        <button type="submit">Guardar y Finalizar Módulo</button>
       </form>
     </div>
 
     <!-- Mensaje Final -->
     <div id="final-message" class="completion-message hidden">
-      <h2>¡Módulo Completado!</h2>
-      <p>Sus respuestas han sido registradas. Gracias por participar en el programa TeleAsma.</p>
+      <h2>¡Módulo 1 Completado con Éxito!</h2>
+      <p>Sus respuestas se han registrado correctamente. Recuerde seguir siempre las recomendaciones del equipo médico.</p>
     </div>
   </div>
 
   <script>
-    // Configuración: Reemplace con el ID del video de YouTube deseado
-    const YOUTUBE_VIDEO_ID = 'dQw4w9WgXcQ'; 
+    // Configuración del video 1 (URL: https://youtu.be/s3QSvfKgKkw)
+    const YOUTUBE_VIDEO_ID = 's3QSvfKgKkw'; 
 
     let player;
     let preResponses = {};
@@ -203,16 +203,15 @@
       });
     }
 
-    // Monitoreo del estado del reproductor
+    // Detectar fin del video (YT.PlayerState.ENDED = 0)
     function onPlayerStateChange(event) {
-      // YT.PlayerState.ENDED equivale a estado 0 (video finalizado)
       if (event.data === YT.PlayerState.ENDED) {
         document.getElementById('video-section').classList.add('hidden');
         document.getElementById('post-quiz').classList.remove('hidden');
       }
     }
 
-    // Manejo de la encuesta PRE-video
+    // Formulario Pre-Video
     document.getElementById('form-pre').addEventListener('submit', function(e) {
       e.preventDefault();
       const formData = new FormData(this);
@@ -220,17 +219,15 @@
       
       console.log('Respuestas Pre-Video:', preResponses);
 
-      // Ocultar encuesta pre y mostrar video
       document.getElementById('pre-quiz').classList.add('hidden');
       document.getElementById('video-section').classList.remove('hidden');
       
-      // Iniciar reproducción si el reproductor está listo
       if (player && player.playVideo) {
         player.playVideo();
       }
     });
 
-    // Manejo de la encuesta POST-video
+    // Formulario Post-Video
     document.getElementById('form-post').addEventListener('submit', function(e) {
       e.preventDefault();
       const formData = new FormData(this);
@@ -238,11 +235,8 @@
 
       console.log('Respuestas Post-Video:', postResponses);
 
-      // Ocultar encuesta post y mostrar mensaje final
       document.getElementById('post-quiz').classList.add('hidden');
       document.getElementById('final-message').classList.remove('hidden');
-
-      // Aquí se puede integrar un envío fetch() a un backend o Google Sheets API
     });
   </script>
 </body>
