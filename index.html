@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Plataforma TeleAsma - Serie Educativa</title>
+  <title>Plataforma TeleAsma - Galería Educativa</title>
   <style>
     :root {
       --primary: #0284c7;
@@ -27,7 +27,7 @@
 
     .container {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1000px;
     }
 
     header {
@@ -47,10 +47,10 @@
       font-size: 1.1rem;
     }
 
-    /* Galería de tarjetas (Mosaico / Grid) */
+    /* Galería de tarjetas (Grid Home) */
     .episodes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 24px;
     }
 
@@ -93,15 +93,14 @@
       transform: translate(-50%, -50%);
       background: rgba(2, 132, 199, 0.85);
       color: white;
-      width: 52px;
-      height: 52px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       transition: background 0.2s, transform 0.2s;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
 
     .episode-card:hover .play-overlay {
@@ -126,7 +125,7 @@
     }
 
     .card-title {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 600;
       margin: 0 0 12px 0;
       line-height: 1.4;
@@ -137,7 +136,7 @@
       background-color: #f1f5f9;
       color: var(--primary);
       border: none;
-      padding: 10px 12px;
+      padding: 8px 12px;
       border-radius: 6px;
       font-weight: 600;
       font-size: 0.9rem;
@@ -157,12 +156,13 @@
       background-color: #e2e8f0;
       color: var(--text);
       border: none;
-      padding: 10px 18px;
+      padding: 8px 16px;
       font-size: 0.95rem;
       font-weight: 600;
       border-radius: 6px;
       cursor: pointer;
       margin-bottom: 20px;
+      width: auto;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -203,7 +203,7 @@
       background-color: var(--primary);
       color: white;
       border: none;
-      padding: 14px 20px;
+      padding: 12px 20px;
       font-size: 1rem;
       font-weight: 600;
       border-radius: 6px;
@@ -230,28 +230,28 @@
 
   <div class="container">
     
-    <!-- VISTA PRINCIPAL: Mosaico de Tarjetas -->
+    <!-- HOME INICIAL: Galería de Videos -->
     <div id="home-view">
       <header>
         <h1>Plataforma de Educación TeleAsma</h1>
-        <p>Seleccione un episodio para realizar la encuesta previa, ver el video y evaluar lo aprendido</p>
+        <p>Seleccione un módulo educativo para comenzar la sesión</p>
       </header>
       <div class="episodes-grid" id="episodes-grid"></div>
     </div>
 
-    <!-- VISTA DETALLE / MODAL: Encuestas y Video -->
+    <!-- VISTA MODAL: Cuestionarios y Video -->
     <div id="player-modal" class="modal-view hidden">
-      <button class="btn-back" onclick="returnToHome()">← Volver al menú de episodios</button>
+      <button class="btn-back" onclick="returnToHome()">← Volver al inicio</button>
 
-      <!-- Paso 1: Encuesta Inicial (Google Form) -->
+      <!-- Step 1: Formulario Inicial -->
       <div id="step-pre">
         <h2 id="modal-pre-title">Encuesta Inicial</h2>
-        <p>Por favor complete la siguiente encuesta previa antes de ver el episodio:</p>
+        <p>Por favor complete este cuestionario previo antes de habilitar el video:</p>
         <iframe id="iframe-pre" class="iframe-container" src="">Cargando encuesta...</iframe>
-        <button class="action-btn" onclick="goToVideo()">Ya completé la encuesta, continuar al video ▶</button>
+        <button class="action-btn" onclick="goToVideo()">Ya completé la encuesta, ver video ▶</button>
       </div>
 
-      <!-- Paso 2: Video (YouTube API) -->
+      <!-- Step 2: Reproductor de Video -->
       <div id="step-video" class="hidden">
         <h2 id="modal-video-title">Módulo Educativo</h2>
         <div class="video-container">
@@ -259,26 +259,26 @@
         </div>
       </div>
 
-      <!-- Paso 3: Encuesta Final (Google Form) -->
+      <!-- Step 3: Formulario Final -->
       <div id="step-post" class="hidden">
         <h2 id="modal-post-title">Encuesta Final de Evaluación</h2>
-        <p>¡Video completado! Complete la evaluación final para registrar su avance:</p>
+        <p>¡Video finalizado! Por favor complete la evaluación para registrar su avance:</p>
         <iframe id="iframe-post" class="iframe-container" src="">Cargando encuesta final...</iframe>
         <button class="action-btn" onclick="finishEpisode()">Finalizar Módulo</button>
       </div>
 
-      <!-- Paso 4: Confirmación Final -->
+      <!-- Step 4: Finalizado -->
       <div id="step-completion" class="completion-message hidden">
-        <h2>¡Módulo Completado!</h2>
-        <p>Sus respuestas han sido registradas. ¡Gracias por participar en el programa TeleAsma!</p>
-        <button class="btn-back" style="margin-top: 15px;" onclick="returnToHome()">Volver al mosaico de episodios</button>
+        <h2>¡Felicitaciones!</h2>
+        <p>Ha completado exitosamente este módulo educativo. Sus respuestas han sido registradas.</p>
+        <button class="btn-back" style="margin-top: 15px;" onclick="returnToHome()">Volver al menú de episodios</button>
       </div>
     </div>
 
   </div>
 
   <script>
-    // Colección de los 9 Google Forms suministrados
+    // Enlaces de Google Forms
     const GOOGLE_FORMS = [
       "https://docs.google.com/forms/d/e/1FAIpQLSeSXP3uwFtOJxX83-goX0QAAc_Wo4ryrUas5vUC98yhM8P_6w/viewform?embedded=true",
       "https://docs.google.com/forms/d/e/1FAIpQLSe3dGG-ZUvdu4_N3OTYqzs8XfBPKKJOC1g29_PhSp7RsCzCJw/viewform?embedded=true",
@@ -291,9 +291,118 @@
       "https://docs.google.com/forms/d/e/1FAIpQLSdgUEkwiKI_RLzQk8mZ9GWT628EcGeqxfts-tK49Exoemj7Cw/viewform?embedded=true"
     ];
 
-    // Los 9 episodios de la serie con sus respectivos IDs de YouTube y encuestas
+    // Colección de episodios
     const EPISODES = [
       { id: 's3QSvfKgKkw', episodeNum: 1, title: '¿Qué es el Asma?', preForm: GOOGLE_FORMS[0], postForm: GOOGLE_FORMS[1] },
       { id: 's464LEjx5v4', episodeNum: 2, title: 'Detectives de los desencadenantes', preForm: GOOGLE_FORMS[1], postForm: GOOGLE_FORMS[2] },
       { id: 'VmgU1Tc3KgU', episodeNum: 3, title: 'Escudo Protector Manejo No Farmacológico', preForm: GOOGLE_FORMS[2], postForm: GOOGLE_FORMS[3] },
-      { id: '8GgUsjFioKg', episodeNum: 4, title: 'Entendiendo los Síntomas del Asma', preForm: GOOGLE_FORMS[3], postForm: GOOGLE_
+      { id: '8GgUsjFioKg', episodeNum: 4, title: 'Entendiendo los Síntomas del Asma', preForm: GOOGLE_FORMS[3], postForm: GOOGLE_FORMS[4] },
+      { id: 'p0YnmVlXYQw', episodeNum: 5, title: 'Desmintiendo Mitos sobre el Asma', preForm: GOOGLE_FORMS[4], postForm: GOOGLE_FORMS[5] },
+      { id: 'Agu8impLeT0', episodeNum: 6, title: 'Mitos sobre los Medicamentos', preForm: GOOGLE_FORMS[5], postForm: GOOGLE_FORMS[6] },
+      { id: 'oXgFt0bdVGo', episodeNum: 7, title: 'Cómo respira Pulmi hoy - Test del Asma', preForm: GOOGLE_FORMS[6], postForm: GOOGLE_FORMS[7] }
+    ];
+
+    let player;
+    let currentEpisode = null;
+
+    // Cargar API de YouTube
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        videoId: '',
+        playerVars: { 'controls': 1, 'modestbranding': 1, 'rel': 0 },
+        events: { 'onStateChange': onPlayerStateChange }
+      });
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.ENDED) {
+        document.getElementById('step-video').classList.add('hidden');
+        document.getElementById('step-post').classList.remove('hidden');
+      }
+    }
+
+    // Renderizar Galería en el Home
+    function renderHomeGrid() {
+      const grid = document.getElementById('episodes-grid');
+      grid.innerHTML = '';
+
+      EPISODES.forEach((ep, index) => {
+        const thumbUrl = `https://img.youtube.com/vi/${ep.id}/mqdefault.jpg`;
+        const card = document.createElement('div');
+        card.className = 'episode-card';
+        card.onclick = () => openEpisode(index);
+
+        card.innerHTML = `
+          <div class="thumbnail-wrapper">
+            <img src="${thumbUrl}" alt="${ep.title}" />
+            <div class="play-overlay">▶</div>
+          </div>
+          <div class="card-content">
+            <span class="card-badge">Episodio ${ep.episodeNum}</span>
+            <h3 class="card-title">${ep.title}</h3>
+            <div class="card-btn">Iniciar Módulo</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Abrir un episodio
+    function openEpisode(index) {
+      currentEpisode = EPISODES[index];
+
+      // Configurar vistas
+      document.getElementById('home-view').classList.add('hidden');
+      document.getElementById('player-modal').classList.remove('hidden');
+
+      document.getElementById('step-pre').classList.remove('hidden');
+      document.getElementById('step-video').classList.add('hidden');
+      document.getElementById('step-post').classList.add('hidden');
+      document.getElementById('step-completion').classList.add('hidden');
+
+      // Cargar títulos e iframes de formularios
+      document.getElementById('modal-pre-title').innerText = `Episodio ${currentEpisode.episodeNum}: Encuesta Inicial`;
+      document.getElementById('modal-video-title').innerText = `Episodio ${currentEpisode.episodeNum}: ${currentEpisode.title}`;
+      document.getElementById('modal-post-title').innerText = `Episodio ${currentEpisode.episodeNum}: Encuesta Final`;
+
+      document.getElementById('iframe-pre').src = currentEpisode.preForm;
+      document.getElementById('iframe-post').src = currentEpisode.postForm;
+
+      if (player && player.loadVideoById) {
+        player.loadVideoById(currentEpisode.id);
+        player.stopVideo();
+      }
+    }
+
+    function goToVideo() {
+      document.getElementById('step-pre').classList.add('hidden');
+      document.getElementById('step-video').classList.remove('hidden');
+      if (player && player.playVideo) {
+        player.playVideo();
+      }
+    }
+
+    function finishEpisode() {
+      document.getElementById('step-post').classList.add('hidden');
+      document.getElementById('step-completion').classList.remove('hidden');
+    }
+
+    function returnToHome() {
+      if (player && player.stopVideo) {
+        player.stopVideo();
+      }
+      document.getElementById('player-modal').classList.add('hidden');
+      document.getElementById('home-view').classList.remove('hidden');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderHomeGrid();
+    });
+  </script>
+</body>
+</html>
